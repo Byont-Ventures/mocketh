@@ -7,3 +7,4 @@ export function getMockedProvider(
 }
 
 export * from './provider'
+export * from './errors'
