@@ -61,6 +61,10 @@ export class MockedProvider extends providers.BaseProvider {
     ]
   }
 
+  clearMocks() {
+    this.mockedMethods = []
+  }
+
   #getContractMock(functionSignature: string) {
     const contractMock = this.mockedMethods.find(
       (mock) => mock.functionSignature === functionSignature

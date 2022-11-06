@@ -16,4 +16,8 @@ providerMock.mockReadContract(
   'getSomeString',
   'Mocked string'
 )
+
+// You test
+
+providerMock.clearMocks()
 ```
