@@ -2,10 +2,13 @@
   "name": "@byont/mocketh",
   "version": "0.0.1",
   "description": "A fully-typed ethers.js mocking library for mocking smart contracts",
+  "main": "dist/mocketh.cjs.js",
+  "module": "dist/mocketh.esm.js",
   "types": "dist/index.d.ts",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "browser": "dist/index.js",
+  "exports": {
+    "module": "./dist/mocketh.esm.js",
+    "default": "./dist/mocketh.cjs.js"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
@@ -20,7 +23,6 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "@rollup/plugin-babel": "^6.0.2",
