@@ -4,7 +4,7 @@
   "description": "A fully-typed ethers.js mocking library for mocking smart contracts",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
