@@ -8,6 +8,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "lint": "eslint . --fix --max-warnings=0",
+    "format": "prettier . --write",
     "prepare": "husky install"
   },
   "homepage": "https://mocketh.byont.io/",
@@ -21,10 +23,15 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.1.0",
     "@rollup/plugin-typescript": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.27.0",
+    "husky": "^8.0.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-jsdoc": "^0.4.2",
     "rimraf": "^3.0.2",
     "rollup": "^3.2.5",
     "tslib": "^2.4.1",
-    "typescript": "^4.8.4",
-    "husky": "^8.0.0"
+    "typescript": "^4.8.4"
   }
 }
