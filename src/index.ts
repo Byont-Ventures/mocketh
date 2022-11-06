@@ -1,5 +1,9 @@
-const build = async () => {
-  return new Promise((resolve) => setTimeout(() => resolve(true), 100))
+import { MockedProvider } from './provider'
+
+export function getMockedProvider(
+  ...args: ConstructorParameters<typeof MockedProvider>
+) {
+  return new MockedProvider(...args)
 }
 
-export default build
+export * from './provider'
