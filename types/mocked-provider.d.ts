@@ -1,12 +1,10 @@
-import { Abi } from 'abitype'
+import { Abi, ExtractAbiFunctionNames, ExtractAbiFunction } from 'abitype'
 import { utils } from 'ethers'
-import { GetReturnType } from './abitype'
+import { GetReturnType, GetArgs } from './abitype'
 
 export interface MockedContractMethod {
-  abi: Abi
-  address: string
-  functionName: ExtractAbiFunctionNames<TAbi>
-  functionSignature: string
+  encodedFunctionData: string
   contractInterface: utils.Interface
   returnValue: GetReturnType<{ abi: TAbi; functionName: TFunc }>
+  address?: string
 }
