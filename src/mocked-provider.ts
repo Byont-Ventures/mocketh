@@ -1,6 +1,6 @@
 import { GetReturnType } from '../types/abitype'
 import { Abi, ExtractAbiFunctionNames } from 'abitype'
-import { providers, utils } from 'ethers'
+import { BigNumber, providers, utils } from 'ethers'
 import type { MockedContractMethod } from '../types/provider'
 import { MockNotFoundError, NotImplementedError } from './errors'
 
@@ -17,7 +17,10 @@ export class MockedProvider extends providers.BaseProvider {
 
   perform(
     method: 'getBlockNumber' | 'call',
-    params: { transaction: { data: string } }
+    params: {
+      transaction: { to: string; data: string; accessList: null }
+      blockTag: string
+    }
   ) {
     if (method === 'getBlockNumber') {
       return this.getBlockNumber()
@@ -30,18 +33,23 @@ export class MockedProvider extends providers.BaseProvider {
     throw new NotImplementedError(`Method ${method} is not implemented.`)
   }
 
-  mockReadContract<
+  mockContractCall<
     TAbi extends Abi,
     TFunc extends ExtractAbiFunctionNames<TAbi>
-  >(
-    address: string,
-    abi: TAbi,
-    functionName: TFunc,
+  >({
+    address,
+    abi,
+    functionName,
+    returnValue,
+  }: {
+    address: string
+    abi: TAbi
+    functionName: TFunc
     returnValue: GetReturnType<{
       abi: typeof abi
       functionName: typeof functionName
     }>
-  ) {
+  }) {
     const contractInterface = new utils.Interface(
       abi as unknown as ReadonlyArray<utils.Fragment>
     )

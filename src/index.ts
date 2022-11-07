@@ -1,4 +1,4 @@
-import { MockedProvider } from './provider'
+import { MockedProvider } from './mocked-provider'
 
 export function getMockedProvider(
   ...args: ConstructorParameters<typeof MockedProvider>
@@ -6,5 +6,5 @@ export function getMockedProvider(
   return new MockedProvider(...args)
 }
 
-export * from './provider'
+export * from './mocked-provider'
 export * from './errors'
