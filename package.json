@@ -1,6 +1,6 @@
 {
   "name": "@byont/mocketh",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "A fully-typed ethers.js mocking library for mocking smart contracts",
   "main": "dist/mocketh.cjs.js",
   "module": "dist/mocketh.esm.js",
