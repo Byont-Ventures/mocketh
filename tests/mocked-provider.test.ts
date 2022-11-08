@@ -26,21 +26,21 @@ describe('MockedProvider', () => {
 
   it('should mock return data for a contract call', async () => {
     provider.mockContractCall({
-      address: '0x26619fa1d4c957c58096bbbeca6588dcfb12e109',
+      address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('42').toBigInt(),
-      args: ['0x26619fa1d4c957c58096bbbeca6588dcfb12e109'],
+      args: ['0x3845874ec9df670d54eb3edebd33b18353905a44'],
     })
 
     const contract = new ethers.Contract(
-      '0x26619fa1d4c957c58096bbbeca6588dcfb12e109',
+      '0x3845874ec9df670d54eb3edebd33b18353905a44',
       erc721Abi,
       provider
     )
 
     expect(
-      await contract.balanceOf('0x26619fa1d4c957c58096bbbeca6588dcfb12e109')
+      await contract.balanceOf('0x3845874ec9df670d54eb3edebd33b18353905a44')
     ).toEqual(BigNumber.from('42'))
   })
 
@@ -52,7 +52,7 @@ describe('MockedProvider', () => {
     })
 
     provider.mockContractCall({
-      address: '0x26619fa1d4c957c58096bbbeca6588dcfb12e109',
+      address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('2').toBigInt(),
@@ -65,13 +65,13 @@ describe('MockedProvider', () => {
     })
 
     const contract = new ethers.Contract(
-      '0x26619fa1d4c957c58096bbbeca6588dcfb12e109',
+      '0x3845874ec9df670d54eb3edebd33b18353905a44',
       erc721Abi,
       provider
     )
 
     expect(
-      await contract.balanceOf('0x26619fa1d4c957c58096bbbeca6588dcfb12e109')
+      await contract.balanceOf('0x3845874ec9df670d54eb3edebd33b18353905a44')
     ).toEqual(BigNumber.from('2'))
   })
 
@@ -85,7 +85,7 @@ describe('MockedProvider', () => {
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
-      args: ['0x26619fa1d4c957c58096bbbeca6588dcfb12e109'],
+      args: ['0x3845874ec9df670d54eb3edebd33b18353905a44'],
       returnValue: BigNumber.from('2').toBigInt(),
     })
 
@@ -96,13 +96,13 @@ describe('MockedProvider', () => {
     })
 
     const contract = new ethers.Contract(
-      '0x26619fa1d4c957c58096bbbeca6588dcfb12e109',
+      '0x3845874ec9df670d54eb3edebd33b18353905a44',
       erc721Abi,
       provider
     )
 
     expect(
-      await contract.balanceOf('0x26619fa1d4c957c58096bbbeca6588dcfb12e109')
+      await contract.balanceOf('0x3845874ec9df670d54eb3edebd33b18353905a44')
     ).toEqual(BigNumber.from('2'))
   })
 })

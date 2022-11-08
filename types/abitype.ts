@@ -58,7 +58,7 @@ export type Or<T, U> = T extends true ? true : U extends true ? true : false
  * @param TFunctionName - Name of contract function
  * @returns Inferred args of contract function
  */
-type GetArgs<
+export type GetArgs<
   TAbi extends Abi | readonly unknown[],
   // It's important that we use `TFunction` to parse args so overloads still return the correct types
   TAbiFunction extends AbiFunction & { type: 'function' }

@@ -10,14 +10,18 @@ import { ExampleAbi } from './example-abi'
 
 const providerMock = getMockedProvider()
 
-providerMock.mockReadContract(
-  '0x0000000000000000000000000000000000000000',
-  ExampleAbi,
-  'getSomeString',
-  'Mocked string'
-)
+providerMock.mockContractCall({
+  /** BAYC */
+  address: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
+  abi: erc721Abi,
+  functionName: 'balanceOf',
+  returnValue: BigNumber.from('1').toBigInt(),
+  args: ['0x31b0c4112a9aa5b79ca5883465bfc4cd013c6282'],
+})
 
-// You test
+// Your test
 
 providerMock.clearMocks()
 ```
+
+See [tests](/tests/mocked-provider.test.ts) for more examples.
