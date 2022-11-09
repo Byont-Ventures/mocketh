@@ -6,10 +6,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "jsx": "react",
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@types/*": ["./types/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "rollup.config.ts"]
 }
