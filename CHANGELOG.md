@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/Byont-Ventures/mocketh/compare/v1.0.0...v1.1.0) (2022-11-10)
+
+
+### Bug Fixes
+
+* using bignumer js instead of bigint ([0b22828](https://github.com/Byont-Ventures/mocketh/commit/0b228283613ad4bbb5bd92ab949bbbc5a993f9a9))
+
+
+### Features
+
+* adds working wagmi example ([aa526bc](https://github.com/Byont-Ventures/mocketh/commit/aa526bc6499d8b61d7531ad7e9d765b13246f21a))
+
 # 1.0.0 (2022-11-08)
 
 ### Features
