@@ -1,9 +1,9 @@
 import { render, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@byont/mocketh'
 import Index from '../pages'
-import { createClient, chain, configureChains, WagmiConfig } from 'wagmi'
+import { createClient, chain, WagmiConfig } from 'wagmi'
 import { MockConnector } from 'wagmi/connectors/mock'
-import { BigNumber, providers, Wallet } from 'ethers'
+import { BigNumber } from 'ethers'
 import { WalletSigner } from './getSigner'
 import { baycAbi } from '../abis/BoredApeYachtClub'
 
