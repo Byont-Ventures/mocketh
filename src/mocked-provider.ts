@@ -1,4 +1,5 @@
-import { Contract, providers, utils } from 'ethers'
+import { providers, utils } from 'ethers'
+
 import type {
   Abi,
   ExtractAbiFunction,
@@ -34,6 +35,8 @@ export class MockedProvider extends providers.BaseProvider {
   mockedMethods: MockedContractMethod[] = []
   mockedEvents: MockedContractEvent[] = []
 
+  runningEvents: Promise<unknown>[] = []
+
   getBlockNumber() {
     return new Promise<number>((resolve) => resolve(1))
   }
@@ -65,6 +68,34 @@ export class MockedProvider extends providers.BaseProvider {
     }
 
     throw new NotImplementedError(`Method ${method} is not implemented.`)
+  }
+
+  /**
+   * @param eventName
+   * @param listener
+   * @returns
+   */
+  on(eventName: providers.EventType, listener: providers.Listener) {
+    const promiseEvent = new Promise((resolve, reject) =>
+      super
+        .once(eventName, (...args) => {
+          listener.apply(this, args)
+          setTimeout(() => resolve(true), 0)
+        })
+        .once('error', reject)
+    )
+
+    this.runningEvents = [...this.runningEvents, promiseEvent]
+
+    return this
+  }
+
+  /**
+   * Events are async in ethers, this method can be used to wait for them to be
+   * completed
+   */
+  async waitForEvents() {
+    await Promise.all(this.runningEvents)
   }
 
   /**
