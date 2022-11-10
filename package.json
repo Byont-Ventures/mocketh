@@ -4,14 +4,14 @@
   "description": "A fully-typed ethers.js mocking library for mocking smart contracts",
   "main": "dist/mocketh.cjs.js",
   "module": "dist/mocketh.esm.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     "module": "./dist/mocketh.esm.js",
     "default": "./dist/mocketh.cjs.js"
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc --project tsconfig.build.json --declaration --emitDeclarationOnly --declarationDir dist && rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript",
     "lint": "eslint --fix --max-warnings=0",
     "format": "prettier . --write --ignore-path .gitignore",
     "test": "jest",

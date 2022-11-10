@@ -42,11 +42,11 @@ const config: RollupOptions = {
     // Allow bundling cjs modules. Rollup doesn't understand cjs
     commonjs(),
 
+    // Compile TypeScript/JavaScript files
     typescript({
       tsconfig: './tsconfig.build.json',
     }),
 
-    // Compile TypeScript/JavaScript files
     babel({
       extensions,
       babelHelpers: 'bundled',

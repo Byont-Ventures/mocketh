@@ -1,5 +1,11 @@
-import { utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { GetReturnType } from './abitype'
+
+declare module 'abitype' {
+  export interface Config {
+    BigIntType: BigNumber
+  }
+}
 
 export interface MockedContractMethod {
   encodedFunctionData: string
@@ -10,3 +16,5 @@ export interface MockedContractMethod {
   }>
   address?: string
 }
+
+export * from './abitype'

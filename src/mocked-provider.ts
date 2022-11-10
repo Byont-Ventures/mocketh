@@ -2,8 +2,7 @@ import { providers, utils } from 'ethers'
 import type { Abi, ExtractAbiFunction, ExtractAbiFunctionNames } from 'abitype'
 
 import { MockNotFoundError, NotImplementedError } from './errors'
-import type { GetArgs, GetReturnType } from '../types/abitype'
-import type { MockedContractMethod } from '../types/mocked-provider'
+import type { MockedContractMethod, GetArgs, GetReturnType } from '../types'
 
 export class MockedProvider extends providers.BaseProvider {
   mockedMethods: MockedContractMethod[] = []

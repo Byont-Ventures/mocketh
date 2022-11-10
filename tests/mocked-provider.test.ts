@@ -14,7 +14,7 @@ describe('MockedProvider', () => {
       address: '0x0000',
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigInt('42'),
+      returnValue: BigNumber.from('42'),
     })
 
     expect(provider.mockedMethods.length).toStrictEqual(1)
@@ -29,7 +29,7 @@ describe('MockedProvider', () => {
       address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('42').toBigInt(),
+      returnValue: BigNumber.from('42'),
       args: ['0x3845874ec9df670d54eb3edebd33b18353905a44'],
     })
 
@@ -48,20 +48,20 @@ describe('MockedProvider', () => {
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('1').toBigInt(),
+      returnValue: BigNumber.from('1'),
     })
 
     provider.mockContractCall({
       address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('2').toBigInt(),
+      returnValue: BigNumber.from('2'),
     })
 
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('1').toBigInt(),
+      returnValue: BigNumber.from('1'),
     })
 
     const contract = new ethers.Contract(
@@ -79,20 +79,20 @@ describe('MockedProvider', () => {
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('1').toBigInt(),
+      returnValue: BigNumber.from('1'),
     })
 
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
       args: ['0x3845874ec9df670d54eb3edebd33b18353905a44'],
-      returnValue: BigNumber.from('2').toBigInt(),
+      returnValue: BigNumber.from('2'),
     })
 
     provider.mockContractCall({
       abi: erc721Abi,
       functionName: 'balanceOf',
-      returnValue: BigNumber.from('1').toBigInt(),
+      returnValue: BigNumber.from('1'),
     })
 
     const contract = new ethers.Contract(
