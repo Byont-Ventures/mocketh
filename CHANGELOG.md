@@ -1,9 +1,15 @@
-# [1.2.0](https://github.com/Byont-Ventures/mocketh/compare/v1.1.0...v1.2.0) (2022-11-10)
+# [1.3.0](https://github.com/Byont-Ventures/mocketh/compare/v1.2.0...v1.3.0) (2022-11-10)
 
 
 ### Features
 
-* adds mock contract event function ([b533792](https://github.com/Byont-Ventures/mocketh/commit/b533792f2a6c8477d61d5b979cc175a867b6f8b5))
+* adds awaiting events ([540a2c1](https://github.com/Byont-Ventures/mocketh/commit/540a2c1ba284a265996bf6afb6f756d2b020572b))
+
+# [1.2.0](https://github.com/Byont-Ventures/mocketh/compare/v1.1.0...v1.2.0) (2022-11-10)
+
+### Features
+
+- adds mock contract event function ([b533792](https://github.com/Byont-Ventures/mocketh/commit/b533792f2a6c8477d61d5b979cc175a867b6f8b5))
 
 # [1.1.0](https://github.com/Byont-Ventures/mocketh/compare/v1.0.0...v1.1.0) (2022-11-10)
 
