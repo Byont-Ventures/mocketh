@@ -12,9 +12,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "dev": "rollup -w --config rollup.config.ts --configPlugin typescript",
     "lint": "eslint --fix --max-warnings=0",
     "format": "prettier . --write --ignore-path .gitignore",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch",
     "prepare": "husky install",
     "semantic-release": "semantic-release"
@@ -58,6 +59,7 @@
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
+    "@wagmi/core": "^0.7.1",
     "abitype": "^0.1.7",
     "babel-jest": "^29.2.2",
     "eslint": "^8.27.0",
@@ -71,6 +73,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^3.2.5",
     "rollup-jest": "^3.1.0",
+    "rollup-watch": "^4.3.1",
     "semantic-release": "^19.0.5",
     "ts-jest": "^29.0.3",
     "tslib": "^2.4.1",

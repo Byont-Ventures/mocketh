@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber, Contract, ethers } from 'ethers'
 import { MockedProvider } from '../src/mocked-provider'
 import { erc721Abi } from './abi/erc721'
 
@@ -10,7 +10,7 @@ describe('MockedProvider', () => {
   })
 
   it('should remove mocks when calling clear mocks', () => {
-    provider.mockContractCall({
+    provider.mockContractFunction({
       address: '0x0000',
       abi: erc721Abi,
       functionName: 'balanceOf',
@@ -25,7 +25,7 @@ describe('MockedProvider', () => {
   })
 
   it('should mock return data for a contract call', async () => {
-    provider.mockContractCall({
+    provider.mockContractFunction({
       address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
@@ -45,20 +45,20 @@ describe('MockedProvider', () => {
   })
 
   it('should prefer mocks with address over mock without address', async () => {
-    provider.mockContractCall({
+    provider.mockContractFunction({
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('1'),
     })
 
-    provider.mockContractCall({
+    provider.mockContractFunction({
       address: '0x3845874ec9df670d54eb3edebd33b18353905a44',
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('2'),
     })
 
-    provider.mockContractCall({
+    provider.mockContractFunction({
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('1'),
@@ -76,20 +76,20 @@ describe('MockedProvider', () => {
   })
 
   it('should prefer mocks with args over mock without args', async () => {
-    provider.mockContractCall({
+    provider.mockContractFunction({
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('1'),
     })
 
-    provider.mockContractCall({
+    provider.mockContractFunction({
       abi: erc721Abi,
       functionName: 'balanceOf',
       args: ['0x3845874ec9df670d54eb3edebd33b18353905a44'],
       returnValue: BigNumber.from('2'),
     })
 
-    provider.mockContractCall({
+    provider.mockContractFunction({
       abi: erc721Abi,
       functionName: 'balanceOf',
       returnValue: BigNumber.from('1'),

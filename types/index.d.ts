@@ -17,4 +17,13 @@ export interface MockedContractMethod {
   address?: string
 }
 
+export interface MockedContractEvent {
+  contractInterface: utils.Interface
+  topic: string
+  returnValue: AbiParametersToPrimitiveTypes<
+    ExtractAbiEvent<TAbi, string>['inputs']
+  >
+  address?: string
+}
+
 export * from './abitype'

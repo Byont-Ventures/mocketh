@@ -1,11 +1,38 @@
-import { providers, utils } from 'ethers'
-import type { Abi, ExtractAbiFunction, ExtractAbiFunctionNames } from 'abitype'
+import { Contract, providers, utils } from 'ethers'
+import type {
+  Abi,
+  ExtractAbiFunction,
+  ExtractAbiFunctionNames,
+  ExtractAbiEventNames,
+  AbiParametersToPrimitiveTypes,
+  ExtractAbiEvent,
+} from 'abitype'
 
 import { MockNotFoundError, NotImplementedError } from './errors'
-import type { MockedContractMethod, GetArgs, GetReturnType } from '../types'
+import type {
+  MockedContractMethod,
+  MockedContractEvent,
+  GetArgs,
+  GetReturnType,
+} from '../types'
+
+interface PerformParamsCall {
+  transaction: { to: string; data: string; accessList: null }
+  blockTag: string
+}
+
+interface PerformParamsGetLogs {
+  filter: {
+    address: string
+    fromBlock: string
+    toBlock: string
+    topics: string[]
+  }
+}
 
 export class MockedProvider extends providers.BaseProvider {
   mockedMethods: MockedContractMethod[] = []
+  mockedEvents: MockedContractEvent[] = []
 
   getBlockNumber() {
     return new Promise<number>((resolve) => resolve(1))
@@ -16,20 +43,24 @@ export class MockedProvider extends providers.BaseProvider {
   }
 
   perform(
-    method: 'getBlockNumber' | 'call',
-    params: {
-      transaction: { to: string; data: string; accessList: null }
-      blockTag: string
-    }
+    method: 'getBlockNumber' | 'getLogs' | 'call',
+    params: PerformParamsCall | PerformParamsGetLogs
   ) {
     if (method === 'getBlockNumber') {
       return this.getBlockNumber()
     }
 
-    if (method === 'call') {
+    if (method === 'call' && 'transaction' in params) {
       return this.getContractMethodResult(
         params.transaction.data,
         params.transaction.to
+      )
+    }
+
+    if (method === 'getLogs' && 'filter' in params) {
+      return this.getContractEventMockResult(
+        params.filter.topics,
+        params.filter.address
       )
     }
 
@@ -51,7 +82,7 @@ export class MockedProvider extends providers.BaseProvider {
    * @param props.address - The address to match against
    * @param props.args - The argument list to match against
    */
-  mockContractCall<
+  mockContractFunction<
     TAbi extends Abi,
     TFunc extends ExtractAbiFunctionNames<TAbi>
   >({
@@ -103,9 +134,54 @@ export class MockedProvider extends providers.BaseProvider {
     ]
   }
 
+  mockEvent<
+    TAbi extends Abi,
+    TEventName extends ExtractAbiEventNames<TAbi>,
+    TAbiEvent extends ExtractAbiEvent<TAbi, TEventName>
+  >({
+    abi,
+    eventName,
+    returnValue,
+    address,
+  }: {
+    abi: TAbi
+    eventName: TEventName
+    returnValue: AbiParametersToPrimitiveTypes<TAbiEvent['inputs']>
+    address?: string
+  }) {
+    /**
+     * The type do match but wagmi-dev/abitype is too specific for Ethers to
+     * understand so we first cast the type to unknown.
+     */
+    const contractInterface = new utils.Interface(
+      abi as unknown as ReadonlyArray<utils.Fragment>
+    )
+
+    /**
+     * Gets the full event fragment from the name. E.g., Transfer becomes
+     * Transfer(address from, address to, uint256 amount)
+     */
+    const eventFragment = Object.keys(contractInterface.events).find(
+      (key) => contractInterface.events[key].name === eventName
+    )
+
+    if (eventFragment === undefined) {
+      throw new Error('')
+    }
+
+    const topic = utils.id(eventFragment)
+
+    /** Copies and sets the mocked events to the supplied data */
+    this.mockedEvents = [
+      ...this.mockedEvents,
+      { address, returnValue, topic, contractInterface },
+    ]
+  }
+
   /** Clears all mocks */
   clearMocks() {
     this.mockedMethods = []
+    this.mockedEvents = []
   }
 
   /**
@@ -166,5 +242,66 @@ export class MockedProvider extends providers.BaseProvider {
     )
 
     return new Promise((resolve) => resolve(functionResult))
+  }
+
+  getContractEventMockResult(topics: string[], address: string) {
+    this.mockedEvents.filter((event) => {
+      return event.topic === topics[0]
+    })
+
+    const contractMocks = this.mockedEvents
+      /**
+       * Filter out all potential mocks. The first 10 bytes of the functionData
+       * is the actual function signature. Mocks without arguments are actually
+       * contained in the functionData (e.g., the first 10 bytes should be the
+       * same)
+       */
+      .filter(
+        (mock) =>
+          mock.topic === topics[0] &&
+          (mock.address === undefined ||
+            utils.getAddress(mock.address) === utils.getAddress(address))
+      )
+      /**
+       * Address match gets the highest priority, but if they're the same we'll
+       * return the mock with matching function data. This works because
+       * aUndefined - bUndefined === 0 is falsy, and thus the condition after
+       * the or statement is checked
+       */
+      .sort((a, b) => {
+        const aUndefined = a.address === undefined ? 1 : -1
+        const bUndefined = b.address === undefined ? 1 : -1
+        return aUndefined - bUndefined || 0
+      })
+
+    if (contractMocks.length === 0)
+      throw new MockNotFoundError(`Mock with topics ${topics} not found.`)
+
+    const contractMock = contractMocks[0]
+
+    const eventFragment = contractMock.contractInterface.getEvent(
+      contractMock.topic
+    )
+
+    const eventResult = contractMock.contractInterface.encodeEventLog(
+      eventFragment,
+      contractMock.returnValue
+    )
+
+    return new Promise((resolve) =>
+      resolve([
+        {
+          ...eventResult,
+          logIndex: '0x01',
+          blockNumber: '0x01',
+          blockHash:
+            '0xb379544ce020fad519dab65138b8563cd0077608b941358d2d4afb062b8f2fe0',
+          transactionIndex: '0x01',
+          address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+          transactionHash:
+            '0xb379544ce020fad519dab65138b8563cd0077608b941358d2d4afb062b8f2fe0',
+        },
+      ])
+    )
   }
 }

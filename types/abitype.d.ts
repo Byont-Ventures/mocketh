@@ -3,6 +3,7 @@
 import {
   Abi,
   AbiFunction,
+  AbiEvent,
   AbiParameter,
   AbiStateMutability,
   Address,
@@ -11,6 +12,8 @@ import {
   AbiParametersToPrimitiveTypes,
   ExtractAbiFunction,
   ExtractAbiFunctionNames,
+  ExtractAbiEvent,
+  ExtractAbiEventNames,
 } from 'abitype'
 
 /**
@@ -226,3 +229,53 @@ export type AbiEventParametersToPrimitiveTypes<
     // If event is not indexed, add `null` to type
     | (TAbiParameters[K]['indexed'] extends true ? never : null)
 }
+
+export type ContractEventConfig<
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TEventName extends string = string
+> = {
+  /** Contract address */
+  address: string
+  /** Contract ABI */
+  abi: Narrow<TAbi>
+  /** Chain id to use for provider */
+  chainId?: number
+  /** Event to listen for */
+  eventName: IsNever<TEventName> extends true ? string : TEventName
+  /** Receive only a single event */
+  once?: boolean
+}
+
+type GetConfig<T> = T extends {
+  abi: infer TAbi extends Abi
+}
+  ? ContractEventConfig<TAbi, ExtractAbiEventNames<TAbi>>
+  : T extends {
+      abi: infer TAbi extends readonly unknown[]
+      eventName: infer TEventName extends string
+    }
+  ? ContractEventConfig<TAbi, TEventName>
+  : ContractEventConfig
+
+export type ContractEventConfig<TAbi = Abi, TEventName = string> = GetConfig<{
+  abi: TAbi
+  eventName: TEventName
+}>
+
+export type WatchContractEventCallback<
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TEventName extends string = string,
+  TAbiEvent extends AbiEvent = TAbi extends Abi
+    ? ExtractAbiEvent<TAbi, TEventName>
+    : never
+> =
+  // Create local variable `TArgs` based on event input parameters
+  AbiParametersToPrimitiveTypes<
+    TAbiEvent['inputs']
+  > extends infer TArgs extends readonly unknown[]
+    ? // If `TArgs` is never or `TAbi` does not have the same shape as `Abi`, we were not able to infer args.
+      Or<IsNever<TArgs>, NotEqual<TAbi, Abi>> extends true
+      ? (...args: unknown) => void
+      : // We are able to infer args, spread the types.
+        (...args: [...args: TArgs, event: Event<TAbiEvent>]) => void
+    : never
