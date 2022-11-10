@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom'
+
 import { render, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@byont/mocketh'
 import Index from '../pages'
@@ -32,7 +34,7 @@ describe('Index', () => {
       abi: baycAbi,
       address: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
       functionName: 'apePrice',
-      returnValue: BigNumber.from('9999999999999999999').toBigInt(),
+      returnValue: BigNumber.from('9999999999999999999'),
     })
 
     const { getByTestId } = render(<Index />, {
@@ -42,7 +44,7 @@ describe('Index', () => {
     })
 
     await waitFor(() =>
-      expect(getByTestId('baycApePriceContainer')).toEqual(
+      expect(getByTestId('baycApePriceContainer')).toHaveTextContent(
         '9.999999999999999999'
       )
     )
