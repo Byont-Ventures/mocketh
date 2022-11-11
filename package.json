@@ -15,7 +15,7 @@
     "dev": "rollup -w --config rollup.config.ts --configPlugin typescript",
     "lint": "eslint --fix --max-warnings=0",
     "format": "prettier . --write --ignore-path .gitignore",
-    "test": "jest --detectOpenHandles",
+    "test": "jest --force-exit",
     "test:watch": "jest --watch",
     "prepare": "husky install",
     "semantic-release": "semantic-release"
