@@ -213,6 +213,7 @@ export class MockedProvider extends providers.BaseProvider {
   clearMocks() {
     this.mockedMethods = []
     this.mockedEvents = []
+    this.runningEvents = []
   }
 
   /**
