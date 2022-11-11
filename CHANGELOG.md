@@ -1,9 +1,15 @@
-# [1.3.0](https://github.com/Byont-Ventures/mocketh/compare/v1.2.0...v1.3.0) (2022-11-10)
+## [1.3.1](https://github.com/Byont-Ventures/mocketh/compare/v1.3.0...v1.3.1) (2022-11-11)
 
+
+### Bug Fixes
+
+* clear running events when calling clear mocks ([43d15d7](https://github.com/Byont-Ventures/mocketh/commit/43d15d7f91bc551c1782a1743b462faedcf13ff3))
+
+# [1.3.0](https://github.com/Byont-Ventures/mocketh/compare/v1.2.0...v1.3.0) (2022-11-10)
 
 ### Features
 
-* adds awaiting events ([540a2c1](https://github.com/Byont-Ventures/mocketh/commit/540a2c1ba284a265996bf6afb6f756d2b020572b))
+- adds awaiting events ([540a2c1](https://github.com/Byont-Ventures/mocketh/commit/540a2c1ba284a265996bf6afb6f756d2b020572b))
 
 # [1.2.0](https://github.com/Byont-Ventures/mocketh/compare/v1.1.0...v1.2.0) (2022-11-10)
 
