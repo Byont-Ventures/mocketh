@@ -1,9 +1,15 @@
-## [1.3.1](https://github.com/Byont-Ventures/mocketh/compare/v1.3.0...v1.3.1) (2022-11-11)
+## [1.3.2](https://github.com/Byont-Ventures/mocketh/compare/v1.3.1...v1.3.2) (2022-11-13)
 
 
 ### Bug Fixes
 
-* clear running events when calling clear mocks ([43d15d7](https://github.com/Byont-Ventures/mocketh/commit/43d15d7f91bc551c1782a1743b462faedcf13ff3))
+* fixes return types for mock contract function ([25a5349](https://github.com/Byont-Ventures/mocketh/commit/25a5349cdd8ed599238e5e1527135483de9aad4f))
+
+## [1.3.1](https://github.com/Byont-Ventures/mocketh/compare/v1.3.0...v1.3.1) (2022-11-11)
+
+### Bug Fixes
+
+- clear running events when calling clear mocks ([43d15d7](https://github.com/Byont-Ventures/mocketh/commit/43d15d7f91bc551c1782a1743b462faedcf13ff3))
 
 # [1.3.0](https://github.com/Byont-Ventures/mocketh/compare/v1.2.0...v1.3.0) (2022-11-10)
 
