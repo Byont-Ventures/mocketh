@@ -23,7 +23,7 @@ describe('<ContractRead />', () => {
       abi: baycAbi,
       address: '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',
       functionName: 'apePrice',
-      returnValue: BigNumber.from('9999999999999999999'),
+      returnValue: [BigNumber.from('9999999999999999999')],
     })
 
     const { getByTestId } = render(<ContractRead />, {

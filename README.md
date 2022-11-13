@@ -49,7 +49,7 @@ mockProvider.mockContractFunction({
   address: contractAddress,
   functionName: 'balanceOf',
   args: [balanceAddress],
-  returnValue: mockedBalance,
+  returnValue: [mockedBalance],
 })
 
 /** Execute the call how you would normally do it */

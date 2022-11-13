@@ -1,5 +1,5 @@
+import { Abi } from 'abitype'
 import { BigNumber, utils } from 'ethers'
-import { GetReturnType } from './abitype'
 
 declare module 'abitype' {
   export interface Config {
@@ -10,10 +10,9 @@ declare module 'abitype' {
 export interface MockedContractMethod {
   encodedFunctionData: string
   contractInterface: utils.Interface
-  returnValue: GetReturnType<{
-    abi: unknown[]
-    functionName: string
-  }>
+  returnValue: AbiParametersToPrimitiveTypes<
+    ExtractAbiFunction<Abi, string>['outputs']
+  >
   address?: string
 }
 
@@ -21,7 +20,7 @@ export interface MockedContractEvent {
   contractInterface: utils.Interface
   topic: string
   returnValue: AbiParametersToPrimitiveTypes<
-    ExtractAbiEvent<TAbi, string>['inputs']
+    ExtractAbiEvent<Abi, string>['inputs']
   >
   address?: string
 }

@@ -14,7 +14,6 @@ import type {
   MockedContractMethod,
   MockedContractEvent,
   GetArgs,
-  GetReturnType,
 } from '../types'
 
 interface PerformParamsCall {
@@ -115,7 +114,8 @@ export class MockedProvider extends providers.BaseProvider {
    */
   mockContractFunction<
     TAbi extends Abi,
-    TFunc extends ExtractAbiFunctionNames<TAbi>
+    TFuncName extends ExtractAbiFunctionNames<TAbi>,
+    TFunc extends ExtractAbiFunction<TAbi, TFuncName>
   >({
     abi,
     functionName,
@@ -124,11 +124,9 @@ export class MockedProvider extends providers.BaseProvider {
     args,
   }: {
     abi: TAbi
-    functionName: TFunc
-    returnValue: GetReturnType<{
-      abi: typeof abi
-      functionName: typeof functionName
-    }>
+    functionName: TFuncName
+    returnValue: AbiParametersToPrimitiveTypes<TFunc['outputs']>
+
     address?: string
     args?: GetArgs<
       typeof abi,
@@ -270,7 +268,7 @@ export class MockedProvider extends providers.BaseProvider {
     /** Encode the function data correctly */
     const functionResult = contractMock.contractInterface.encodeFunctionResult(
       functionFragment,
-      [contractMock.returnValue]
+      contractMock.returnValue
     )
 
     return new Promise((resolve) => resolve(functionResult))
